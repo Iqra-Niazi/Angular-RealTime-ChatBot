@@ -1,0 +1,60 @@
+<div class="container">
+<button class="chat-button btn btn-secondary" (click)="isChatOpen ? closeForm() : openChat()">
+  <i *ngIf="!isChatOpen" class="bi bi-wechat"></i>
+  <i *ngIf="isChatOpen" class="bi bi-x-lg"></i>
+</button>
+<div class="wrapper blue" id="LiveChat" [style.display]="isChatOpen ? 'block' : 'none'">
+  <div class="chat-box">
+    <div class="chat-box-header">
+      <div class="d-flex justify-content-between">
+        <i class="bi bi-wechat me-3"></i>
+        <h4> Chat Room </h4>
+        <div class="d-flex">
+          <span class="operator-status-online">●</span>
+          <button class="chat-button-header"><a (click)="isChatOpen ? closeForm() : openChat()"><i
+                class="bi bi-x-lg"></i></a></button>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="chat-box-main"  id="chat-conversation">
+      <div class="chat-message-bottom"></div>
+      <div *ngFor="let msg of messageList" class="chat-message" 
+      [ngClass]="{'chat-message-received': !msg.mine, 'chat-message-sent': msg.mine}">
+        <div>
+          <div class="chat-name">{{ msg.userName }}</div>
+          <div class="chat-message-text">{{ msg.message }}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-box-footer">
+      <div class="">
+        <input class="chat-input-msg" type="text" [(ngModel)]="message"placeholder="Type a message..." >
+        <button class="chat-submit-btn" (click)="sendMessage()">
+          <i class="bi bi-send-fill"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<script>
+  function openChat() {
+    document.getElementById("LiveChat").style.display = "block";
+    document.getElementById("chat-body").style.display = "block";
+    scrollToBottom();
+  }
+
+  function closeForm() {
+    document.getElementById("LiveChat").style.display = "none";
+  }
+
+  function scrollToBottom() {
+    setTimeout(() => {
+      const objDiv = document.getElementById('chat-conversation');
+      objDiv.scrollTop = objDiv.scrollHeight;
+    });
+  }
+</script>
